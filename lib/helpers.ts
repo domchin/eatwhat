@@ -11,12 +11,12 @@ export function generateSessionCode(): string {
 }
 
 // Create a new session
-export async function createSession() {
+export async function createSession(sessionType: 'mall' | 'cuisine' = 'cuisine') {
   const sessionCode = generateSessionCode();
-  
+
   const { data, error } = await supabase
     .from('sessions')
-    .insert([{ session_code: sessionCode }])
+    .insert([{ session_code: sessionCode, session_type: sessionType }])
     .select()
     .single();
 

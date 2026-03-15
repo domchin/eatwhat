@@ -3,34 +3,36 @@
 @tailwind utilities;
 
 :root {
-  --primary: #FF6B6B;
+  --primary: #FF5252;
   --secondary: #4ECDC4;
-  --accent: #FFE66D;
+  --accent: #FFD166;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  @apply bg-gradient-to-br from-pink-50 to-purple-50 min-h-screen;
-}
-
-/* Disable pull-to-refresh on mobile */
-body {
+  background: linear-gradient(160deg, #FFF8F5 0%, #FFEEE8 40%, #FFF0FB 100%);
+  min-height: 100vh;
   overscroll-behavior-y: contain;
+}
+
+/* Prevent text selection during swipe */
+.swipe-card {
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #FF6B6B;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #ff5252;
+  background: #FF5252;
+  border-radius: 3px;
 }
