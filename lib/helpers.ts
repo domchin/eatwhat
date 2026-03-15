@@ -14,11 +14,22 @@ export function generateSessionCode(): string {
 export async function createSession(sessionType: 'mall' | 'cuisine' = 'cuisine') {
   const sessionCode = generateSessionCode();
 
-  const { data, error } = await supabase
+  // Try with session_type first; fall back if column doesn't exist yet
+  let result = await supabase
     .from('sessions')
     .insert([{ session_code: sessionCode, session_type: sessionType }])
     .select()
     .single();
+
+  if (result.error?.code === 'PGRST204') {
+    result = await supabase
+      .from('sessions')
+      .insert([{ session_code: sessionCode }])
+      .select()
+      .single();
+  }
+
+  const { data, error } = result;
 
   if (error) throw error;
   return data;
