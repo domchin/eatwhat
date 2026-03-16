@@ -7,6 +7,7 @@
 const SUPABASE_URL = 'https://skjuiahgmkpmbnlcaavn.supabase.co';
 const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNranVpYWhnbWtwbWJubGNhYXZuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDQ2MDg2MiwiZXhwIjoyMDg2MDM2ODYyfQ.ZdiiuoYQ9AJPr8x5ixuU_H6tYlE-XSgZ9LzwArcV4wE';
 const PROJECT_REF = 'skjuiahgmkpmbnlcaavn';
+const SUPABASE_PAT = 'sbp_5d9b7e0102710104e89e72c1cb6260441f817c64';
 
 async function sql(query) {
   // Use the Supabase REST API pg endpoint (available via service_role)
@@ -32,7 +33,7 @@ async function sqlViaManagementAPI(query) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${SERVICE_ROLE_KEY}`,
+      'Authorization': `Bearer ${SUPABASE_PAT}`,
     },
     body: JSON.stringify({ query }),
   });
@@ -159,8 +160,7 @@ async function runMigrations() {
     { name: 'Bengawan Solo',                        cuisine_type: 'Local',      price_range: '$',   description: 'Beloved Peranakan cakes and pandan kueh',                                       logo_url: null },
     { name: 'Jollibee',                             cuisine_type: 'Filipino',   price_range: '$',   description: 'The Philippine fast food icon — Chickenjoy and spaghetti',                      logo_url: 'https://logo.clearbit.com/jollibee.com.ph' },
     { name: "Stuff'd",                              cuisine_type: 'Fusion',     price_range: '$',   description: 'Stuffed burritos and kebab wraps with bold flavour combinations',               logo_url: null },
-  // Only include logo_url if the column exists (added by DDL migration)
-  ].map(({ logo_url, ...r }) => ({ ...r, mall_id: mallId }));
+  ].map(r => ({ ...r, mall_id: mallId }));
 
   // Insert in batches of 10
   for (let i = 0; i < restaurants.length; i += 10) {
